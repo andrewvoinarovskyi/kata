@@ -3,7 +3,7 @@ require 'rspec'
 require File.join(File.dirname(__FILE__), 'gilded_rose')
 
 describe GildedRose do
-  def create_item(name, sell_in = 1, quality = 2)
+  def create_item(name, sell_in, quality)
     Item.new(name, sell_in, quality)
   end
 
@@ -31,19 +31,44 @@ describe GildedRose do
   end
 
   context "foo" do
-    context "not last day" do
+    context "not overdue" do
       include_examples "a normal item", -1
     end
 
-    context "last day" do
+    context "overdue" do
       let(:sell_in) { 0 }
       include_examples "a normal item", -2
+    end
+
+    context "with zero quality" do
+      let(:quality) { 0 }
+      include_examples "a normal item", 0
+      context "and overdue" do
+        let(:sell_in) { 0 }
+        include_examples "a normal item", 0
+      end
     end
   end
 
   context "Conjured" do
     let(:name) { "Conjured" }
-    include_examples "a normal item", -2
+    context "not overdue" do
+      include_examples "a normal item", -2
+    end
+    
+    context "overdue" do
+      let(:sell_in) { 0 }
+      include_examples "a normal item", -4
+    end
+
+    context "with zero quality" do
+      let(:quality) { 0 }
+      include_examples "a normal item", 0
+      context "and overdue" do
+        let(:sell_in) { 0 }
+        include_examples "a normal item", 0
+      end
+    end
   end
 
   context "Aged Brie" do
