@@ -46,7 +46,7 @@ class GildedRose
 
   def decrease_quality(item)
     item.quality -= 1 if item.quality > 0
-    item.quality -= 1 if item.quality > 0 and item.name == "Conjured"
+    item.quality -= 1 if item.quality > 0 and item.name == "Conjured Mana Cake"
   end
 
   def decrease_sell_in(item)

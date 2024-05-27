@@ -50,8 +50,8 @@ describe GildedRose do
     end
   end
 
-  context "Conjured" do
-    let(:name) { "Conjured" }
+  context "Conjured Mana Cake" do
+    let(:name) { "Conjured Mana Cake" }
     context "not overdue" do
       include_examples "a normal item", -2
     end
