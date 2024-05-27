@@ -69,6 +69,15 @@ describe GildedRose do
         include_examples "a normal item", 0
       end
     end
+
+    context "with quality = 1 " do
+      let(:quality) { 1 }
+      include_examples "a normal item", -1
+      context "and overdue" do
+        let(:sell_in) { 0 }
+        include_examples "a normal item", -1
+      end
+    end
   end
 
   context "Aged Brie" do
