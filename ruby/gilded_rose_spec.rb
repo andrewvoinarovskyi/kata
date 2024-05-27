@@ -32,36 +32,36 @@ describe GildedRose do
 
   context "foo" do
     context "not last day" do
-      it_behaves_like "a normal item", -1
+      include_examples "a normal item", -1
     end
 
     context "last day" do
       let(:sell_in) { 0 }
-      it_behaves_like "a normal item", -2
+      include_examples "a normal item", -2
     end
   end
 
   context "Conjured" do
     let(:name) { "Conjured" }
-    it_behaves_like "a normal item", -2
+    include_examples "a normal item", -2
   end
 
   context "Aged Brie" do
     let(:name) { "Aged Brie" }
 
     context "before sell_in period" do 
-      it_behaves_like "a normal item", 1
+      include_examples "a normal item", 1
     end
 
     context "after sell_in period" do 
       let(:sell_in) { 0 }
-      it_behaves_like "a normal item", 2
+      include_examples "a normal item", 2
     end
 
     context "with high quality" do
       let(:sell_in) { 5 }
       let(:quality) { 50 }
-      it_behaves_like "a normal item", 0
+      include_examples "a normal item", 0
     end
   end
 
@@ -70,17 +70,17 @@ describe GildedRose do
 
     context "more than 10 days before concert" do
       let(:sell_in) { 15 }
-      it_behaves_like "a normal item", 1
+      include_examples "a normal item", 1
     end
 
     context "more than 5 days before concert" do
       let(:sell_in) { 10 }
-      it_behaves_like "a normal item", 2
+      include_examples "a normal item", 2
     end
 
     context "less than 5 days before concert" do
       let(:sell_in) { 5 }
-      it_behaves_like "a normal item", 3
+      include_examples "a normal item", 3
     end
 
     context "after concert" do
@@ -102,7 +102,7 @@ describe GildedRose do
     context "with high quality" do
       let(:sell_in) { 5 }
       let(:quality) { 49 }
-      it_behaves_like "a normal item", 1
+      include_examples "a normal item", 1
     end
   end
 
