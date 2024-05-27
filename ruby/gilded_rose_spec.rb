@@ -41,6 +41,11 @@ describe GildedRose do
     end
   end
 
+  context "Conjured" do
+    let(:name) { "Conjured" }
+    it_behaves_like "a normal item", -2
+  end
+
   context "Aged Brie" do
     let(:name) { "Aged Brie" }
 
@@ -51,6 +56,12 @@ describe GildedRose do
     context "after sell_in period" do 
       let(:sell_in) { 0 }
       it_behaves_like "a normal item", 2
+    end
+
+    context "with high quality" do
+      let(:sell_in) { 5 }
+      let(:quality) { 50 }
+      it_behaves_like "a normal item", 0
     end
   end
 
@@ -86,6 +97,12 @@ describe GildedRose do
       it "sets quality to 0" do
         expect(@items[0].quality).to eq 0
       end
+    end
+
+    context "with high quality" do
+      let(:sell_in) { 5 }
+      let(:quality) { 49 }
+      it_behaves_like "a normal item", 1
     end
   end
 
