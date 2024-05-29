@@ -7,45 +7,44 @@ class GildedRose
     @items.each do |item|
       next if item.name == 'Sulfuras, Hand of Ragnaros'
 
-      if item.name == 'Aged Brie' || item.name == 'Backstage passes to a TAFKAL80ETC concert'
-        increase_quality item
-      else
-        decrease_quality item
-      end
-
       decrease_sell_in item
-      update_quality_for_overdue item if item.sell_in < 0
+      calculate_quality item
     end
   end
 
   private
 
-  def update_quality_for_overdue(item)
-    if item.name != 'Aged Brie'
-      if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-        item.quality = 0
-      else
-        decrease_quality item
-      end
-    else
+  def calculate_quality(item)
+    if item.name == 'Aged Brie' || item.name == 'Backstage passes to a TAFKAL80ETC concert'
       increase_quality item
+    else
+      decrease_quality item
     end
   end
 
   def increase_quality(item)
-    return unless item.quality < 50
+    return if item.quality >= 50
 
-    item.quality += 1
+    item.quality += item.sell_in.negative? ? 2 : 1
 
-    return unless item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+      item.quality += 1 if item.sell_in < 11
+      item.quality += 1 if item.sell_in < 6
+      item.quality = 0 if item.sell_in < 0
+    end
 
-    item.quality += 1 if item.sell_in < 11 && item.quality < 50
-    item.quality += 1 if item.sell_in < 6 && item.quality < 50
+    item.quality = 50 if item.quality > 50
   end
 
   def decrease_quality(item)
-    item.quality -= 1 if item.quality > 0
-    item.quality -= 1 if item.quality > 0 && item.name == 'Conjured Mana Cake'
+    return if item.quality <= 0
+
+    decrement = item.sell_in.negative? ? 2 : 1
+    decrement *= 2 if item.name == 'Conjured Mana Cake'
+
+    item.quality -= decrement
+
+    item.quality = 0 if item.quality < 0
   end
 
   def decrease_sell_in(item)
